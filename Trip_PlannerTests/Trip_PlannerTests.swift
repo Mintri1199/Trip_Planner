@@ -7,7 +7,8 @@
 //
 
 import XCTest
-@testable import Trip_Planner
+//
+@testable import Pods_Trip_Planner
 
 class TripPlannerTests: XCTestCase {
 
@@ -22,6 +23,10 @@ class TripPlannerTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+    func testString() {
+        XCTAssertEqual("A" + "B", "AB")
     }
 
     func testPerformanceExample() {
