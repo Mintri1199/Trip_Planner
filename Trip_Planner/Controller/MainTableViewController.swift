@@ -31,10 +31,8 @@ class MainTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.delegate = self
         tableView.dataSource = self
-//        tableView.isEditing = true
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         configNavbar()
         
@@ -44,6 +42,11 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if tripViewModels.count == 0 {
+            setupEmptyView()
+        } else {
+            self.tableView.restore()
+        }
         return tripViewModels.count
     }
     // TODO: Change this later one when implemented Core Data
@@ -52,6 +55,12 @@ class MainTableViewController: UITableViewController {
         let trip = tripViewModels[indexPath.row]
         cell.textLabel?.text = "Trip to \(trip.name)"
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailView = TripDetailViewController()
+        detailView.tripName = tripViewModels[indexPath.row].name
+        navigationController?.pushViewController(detailView, animated: true)
     }
     
 //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -91,6 +100,13 @@ extension MainTableViewController {
         let addVC = AddTripViewController()
         addVC.delegate = self
         navigationController?.pushViewController(addVC, animated: true)
+    }
+    
+    // Set up an Empty View
+    private func setupEmptyView() {
+        let emptyView = TripEmptyView(frame: self.view.bounds)
+        self.tableView.backgroundView = emptyView
+        self.tableView.separatorStyle = .none
     }
     
 }

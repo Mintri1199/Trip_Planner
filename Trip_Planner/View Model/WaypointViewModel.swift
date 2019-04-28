@@ -1,5 +1,5 @@
 //
-//  TripModel.swift
+//  WaypointViewModel.swift
 //  Trip_Planner
 //
 //  Created by Jackson Ho on 4/27/19.
@@ -8,13 +8,11 @@
 
 import Foundation
 
-struct Trip{
-    
+struct WaypointViewModel {
     let name: String
-    var wayPoints: [Waypoint]?
     
-    init(name: String) {
-        self.name = name
+    // Dependency Injection (DI)
+    init(waypoint: Waypoint){
+        self.name = waypoint.name
     }
-//    var wayPoints: [Waypoint]
 }

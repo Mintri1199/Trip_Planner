@@ -1,5 +1,5 @@
 //
-//  TripModel.swift
+//  WaypointModel.swift
 //  Trip_Planner
 //
 //  Created by Jackson Ho on 4/27/19.
@@ -8,13 +8,14 @@
 
 import Foundation
 
-struct Trip{
-    
+struct Waypoint {
     let name: String
-    var wayPoints: [Waypoint]?
+    let lng: Float
+    let lat: Float
     
-    init(name: String) {
+    init(name: String, longitude: Float, latitude: Float) {
         self.name = name
+        self.lng = longitude
+        self.lat = latitude
     }
-//    var wayPoints: [Waypoint]
 }
