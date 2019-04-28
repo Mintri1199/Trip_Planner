@@ -7,8 +7,8 @@
 //
 
 import XCTest
-//
-@testable import Pods_Trip_Planner
+@testable import Trip_Planner
+//@testable import Pods_Trip_Planner
 
 class TripPlannerTests: XCTestCase {
 
@@ -28,7 +28,7 @@ class TripPlannerTests: XCTestCase {
     func testString() {
         XCTAssertEqual("A" + "B", "AB")
     }
-
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

@@ -19,6 +19,8 @@
 		442ABD40226A8672002838C3 /* TripNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442ABD3F226A8672002838C3 /* TripNameTextField.swift */; };
 		442ABD42226A88DE002838C3 /* TripLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442ABD41226A88DE002838C3 /* TripLabel.swift */; };
 		442ABD44226A8F45002838C3 /* HelperExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442ABD43226A8F45002838C3 /* HelperExtensions.swift */; };
+		44983E1222756D1D000DA60C /* TripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44983E1122756D1D000DA60C /* TripViewModel.swift */; };
+		44983E1422756E60000DA60C /* TripModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44983E1322756E60000DA60C /* TripModel.swift */; };
 		4C437C3D3BBAC53CA6D42005 /* Pods_Trip_Planner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F127EA944EAFF3AE3B7A537 /* Pods_Trip_Planner.framework */; };
 		AFFBA63F47DEEB1BA7997415 /* Pods_Trip_PlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765D9935A3B23D2931C752EA /* Pods_Trip_PlannerUITests.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +63,8 @@
 		442ABD3F226A8672002838C3 /* TripNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripNameTextField.swift; sourceTree = "<group>"; };
 		442ABD41226A88DE002838C3 /* TripLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripLabel.swift; sourceTree = "<group>"; };
 		442ABD43226A8F45002838C3 /* HelperExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperExtensions.swift; sourceTree = "<group>"; };
+		44983E1122756D1D000DA60C /* TripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewModel.swift; sourceTree = "<group>"; };
+		44983E1322756E60000DA60C /* TripModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModel.swift; sourceTree = "<group>"; };
 		6279A44B0EBD03EA217617AF /* Pods-Trip_PlannerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trip_PlannerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trip_PlannerTests/Pods-Trip_PlannerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6A322E8AFBF7AD632C7E22F2 /* Pods-Trip_PlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trip_PlannerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trip_PlannerUITests/Pods-Trip_PlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		74E470F0D475392C579C73AB /* Pods_Trip_PlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trip_PlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +136,8 @@
 		442ABD05226A45DD002838C3 /* Trip_Planner */ = {
 			isa = PBXGroup;
 			children = (
+				44983E1022756CFD000DA60C /* View Model */,
+				44983E0F22756CF5000DA60C /* New Group */,
 				442ABD38226A7140002838C3 /* Model */,
 				442ABD37226A7138002838C3 /* Controller */,
 				442ABD39226A7146002838C3 /* Views */,
@@ -175,6 +181,7 @@
 		442ABD38226A7140002838C3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				44983E1322756E60000DA60C /* TripModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -186,6 +193,21 @@
 				442ABD41226A88DE002838C3 /* TripLabel.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		44983E0F22756CF5000DA60C /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		44983E1022756CFD000DA60C /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				44983E1122756D1D000DA60C /* TripViewModel.swift */,
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 		9DAFDF2AAEFCBD887C7F75BD /* Pods */ = {
@@ -422,6 +444,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				442ABD44226A8F45002838C3 /* HelperExtensions.swift in Sources */,
+				44983E1222756D1D000DA60C /* TripViewModel.swift in Sources */,
+				44983E1422756E60000DA60C /* TripModel.swift in Sources */,
 				442ABD3D226A71C6002838C3 /* MainTableViewController.swift in Sources */,
 				442ABD40226A8672002838C3 /* TripNameTextField.swift in Sources */,
 				442ABD3B226A716B002838C3 /* AddTripViewController.swift in Sources */,

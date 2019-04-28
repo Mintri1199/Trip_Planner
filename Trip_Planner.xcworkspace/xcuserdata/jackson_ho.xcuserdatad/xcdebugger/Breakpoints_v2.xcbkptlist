@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Trip_Planner/Controller/AddTripViewController.swift"
-            timestampString = "577409327.084442"
+            timestampString = "577670894.476789"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "79"
             endingLineNumber = "79"
-            landmarkName = "addTrip()"
-            landmarkType = "7">
+            landmarkName = "AddTripViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Trip_Planner/Controller/MainTableViewController.swift"
-            timestampString = "577409327.084563"
+            timestampString = "578122824.745667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "12"

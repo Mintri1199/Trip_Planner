@@ -10,6 +10,15 @@ import UIKit
 
 class MainTableViewController: UITableViewController {
     // TODO: Change this later one when implemented Core Data
+    
+    var tripViewModels = [TripViewModel](){
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     var listOfTrip: [String] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -25,6 +34,7 @@ class MainTableViewController: UITableViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+//        tableView.isEditing = true
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         configNavbar()
         
@@ -34,14 +44,26 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return listOfTrip.count
+        return tripViewModels.count
     }
     // TODO: Change this later one when implemented Core Data
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        cell.textLabel?.text = "Trip to \(listOfTrip[indexPath.row])"
+        let trip = tripViewModels[indexPath.row]
+        cell.textLabel?.text = "Trip to \(trip.name)"
         return cell
     }
+    
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            tripViewModels.remove(at: indexPath.row)
+//            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+//        }
+//    }
+//
+//    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
     
     /*
     // Override to support editing the table view.
@@ -55,12 +77,13 @@ class MainTableViewController: UITableViewController {
         }    
     }*/
 }
-
+// Navbar and navigation
 extension MainTableViewController {
     
     // Configure the navBar with buttons and title
     fileprivate func configNavbar() {
         self.title = "Planned Trip"
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(pushToAddVC))
     }
     
@@ -75,6 +98,6 @@ extension MainTableViewController {
 extension MainTableViewController: CreateTrip {
     // TODO: Change this later one when implemented Core Data
     func createTrip(tripName: String) {
-        listOfTrip.append(tripName)
+        tripViewModels.append(TripViewModel.init(trip: Trip(name: tripName)))
     }
 }
