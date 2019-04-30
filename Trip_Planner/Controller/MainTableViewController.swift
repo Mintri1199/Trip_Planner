@@ -63,12 +63,12 @@ class MainTableViewController: UITableViewController {
         navigationController?.pushViewController(detailView, animated: true)
     }
     
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            tripViewModels.remove(at: indexPath.row)
-//            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-//        }
-//    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tripViewModels.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 //
 //    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
 //        return true
