@@ -14,7 +14,7 @@ class WaypointTableView: UITableView {
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
-        backgroundColor = .cyan
+        backgroundColor = .white
         translatesAutoresizingMaskIntoConstraints = false
         register(UITableViewCell.self, forCellReuseIdentifier: resuseIdentifier)
         dataSource = self

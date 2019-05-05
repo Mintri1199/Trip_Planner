@@ -13,7 +13,7 @@ class TripDetailTopView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .lightGray
+        backgroundColor = .white
         setupConstraints()
     }
     
