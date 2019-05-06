@@ -10,6 +10,8 @@ import Foundation
 
 struct NetworkManager {
     
+    private let googleMapRouter = Router<GooglePlacesApi>()
+    private let geocodeRouter = Router<GeocoderApi>()
     static let environment: NetworkEnvironment = .production
     
     enum NetworkReponse: String, Error {
@@ -31,32 +33,116 @@ struct NetworkManager {
         }
     }
     
-    // Example of how to create a network call
-//    func newGetKeywords(completion: @escaping (Result<[Keyword], NetworkReponse>) -> Void) {
-//
-//        keywordRouter.request(.keywords) { (data, response, error) in
-//
-//            if error != nil {
-//                print("Check your network connection")
-//                return
-//            }
-//
-//            if let response = response as? HTTPURLResponse {
-//                let result = self.newHandleNetworkResponse(response)
-//                switch result {
-//                case .success:
-//                    guard let responseData = data  else { completion(.failure(.noData)); return }
-//
-//                    do {
-//                        let apiResponse = try JSONDecoder().decode([Keyword].self, from: responseData)
-//                        completion(.success(apiResponse))
-//                    } catch {
-//                        completion(.failure(.unableToDecode))
-//                    }
-//                case .failure(let networkFailureError):
-//                    completion(.failure(networkFailureError))
-//                }
-//            }
-//        }
-//    }
+    // Get API key for google map platform
+    func getAPIKey(_ completion: @escaping(String) -> Void) {
+        var format = PropertyListSerialization.PropertyListFormat.xml
+        var data: [String: AnyObject] = [:]
+        let path: String? = Bundle.main.path(forResource: "Info", ofType: "plist")
+        let xmlContents = FileManager.default.contents(atPath: path!)
+        
+        do {
+            if let xmlContents = xmlContents {
+                
+                data = try (PropertyListSerialization.propertyList(from:xmlContents, options:.mutableContainersAndLeaves, format:&format) as? [String:AnyObject] ?? ["Error":"Error" as AnyObject])
+                
+                if let apiKey = data["API_KEY"] as? String {
+                    completion(apiKey)
+                } else {
+                    print("API key is not String, ill config")
+                }
+            }
+        } catch {
+            print("Can not read Info.plist: \(error)")
+        }
+    }
+    // Get app id and code for geocoder
+    func getAppIdAndCode(_ completion: @escaping((String, String)) -> Void) {
+        var format = PropertyListSerialization.PropertyListFormat.xml
+        var data: [String: AnyObject] = [:]
+        let path: String? = Bundle.main.path(forResource: "Info", ofType: "plist")
+        let xmlContents = FileManager.default.contents(atPath: path!)
+        
+        do {
+            if let xmlContents = xmlContents {
+                data = try (PropertyListSerialization.propertyList(from:xmlContents, options:.mutableContainersAndLeaves, format:&format) as? [String:AnyObject] ?? ["Error":"Error" as AnyObject])
+                
+                if let appId = data["App Id"] as? String , let appCode = data["App Code"] as? String{
+                    let idAndCode = (appId, appCode)
+                    completion(idAndCode)
+                } else {
+                    print("App id or code is not String, ill config")
+                }
+            }
+        } catch {
+            print("Can not read Info.plist: \(error)")
+        }
+    }
+    
+    func getAutoCompleteResult(input: String, key: String, completion: @escaping (Result<[String], NetworkReponse>) -> Void) {
+        googleMapRouter.request(.autoComplete(input: input, key: key)) { (data, response, error) in
+            if error != nil {
+                print("Check your network connection")
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse {
+                let result = self.newHandleNetworkResponse(response)
+                switch result {
+                case .success:
+                    guard let responseData = data  else { completion(.failure(.noData)); return }
+                    
+                    do {
+                        let apiResponse = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers) as? [String: Any]
+                        
+                        // Access the prediction array in from the json
+                        if let predictionArray = apiResponse!["predictions"] as? [[String: Any]] {
+                            var arrayOfAddresses: [String] = []
+                            // Loop through the prediction array and append the address array with newly instantiated Waypoint model
+                            for item in predictionArray {
+                                if let address = item["description"] as? String {
+                                    arrayOfAddresses.append(address)
+                                }
+                            }
+                            // Later if there's time, add a no data error handling state
+                            if !arrayOfAddresses.isEmpty {
+                                completion(.success(arrayOfAddresses))
+                            } else {
+                                completion(.failure(.noData))
+                            }
+                        }
+                    } catch {
+                        completion(.failure(.unableToDecode))
+                    }
+                case .failure(let networkFailureError):
+                    completion(.failure(networkFailureError))
+                }
+            }
+        }
+    }
+    
+    func getGeocode(address: String, appId: String, appCode: String, completion: @escaping (Result<Waypoint, NetworkReponse>) -> Void) {
+        geocodeRouter.request(.geocodeOnePlace(address: address, appId: appId, appCode: appCode)) { (data, response, error) in
+            if error != nil {
+                print("Check your network connection")
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse {
+                let result = self.newHandleNetworkResponse(response)
+                switch result {
+                case .success:
+                    guard let responseData = data  else { completion(.failure(.noData)); return }
+                    
+                    do {
+                        let apiResponse = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers) as? [String: Any]
+                        print(apiResponse)
+                    } catch {
+                        completion(.failure(.unableToDecode))
+                    }
+                case .failure(let networkFailureError):
+                    completion(.failure(networkFailureError))
+                }
+            }
+        }
+    }
 }

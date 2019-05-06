@@ -10,10 +10,10 @@ import Foundation
 
 struct Waypoint {
     let name: String
-    let lng: Float
-    let lat: Float
+    let lng: Int?
+    let lat: Int?
     
-    init(name: String, longitude: Float, latitude: Float) {
+    init(name: String, longitude: Int?, latitude: Int?) {
         self.name = name
         self.lng = longitude
         self.lat = latitude

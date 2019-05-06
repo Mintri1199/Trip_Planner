@@ -14,45 +14,59 @@ enum NetworkEnvironment {
     case staging
 }
 
-// Example of an endpoint file
-//public enum KeywordAPI {
-//    case keywords
-//}
-//
-//extension KeywordAPI: EndPointType {
-//
-//    var environmentBaseURl: String {
-//        switch NetworkManager.environment {
-//        case .production: return "https://magickeywordapi.herokuapp.com"
-//        case .qa: return "https://magickeywordapi.herokuapp.com"
-//        case .staging: return ""
-//        }
-//    }
-//
-//    var baseURL: URL {
-//        guard let url = URL(string: environmentBaseURl) else { fatalError("baseURl could not be configure") }
-//        return url
-//    }
-//
-//    var path: String {
-//        switch self {
-//        case .keywords:
-//            return "/api"
-//        }
-//    }
-//
-//    var httpMethod: HTTPMethod {
-//        return .get
-//    }
-//
-//    var task: HTTPTask {
-//        switch self {
-//        case .keywords:
-//            return .request
-//        }
-//    }
-//
-//    var headers: HTTPHeaders? {
-//        return nil
-//    }
-//}
+public enum GooglePlacesApi {
+    case autoComplete(input: String, key: String) // Get an autocomplete response of places for search
+    case getOnePlace(input: String, key: String)  // Get the address and coordinates of one place
+    case getPlaces    // Get the coordinates and addresses of multiple places
+}
+
+extension GooglePlacesApi: EndPointType {
+//    https://maps.googleapis.com/maps/api/place/autocomplete/json?input=1600+Amphitheatre&key=<API_KEY>&sessiontoken=1234567890
+
+    var environmentBaseURL: String {
+        switch NetworkManager.environment {
+        case .production:
+            return "https://maps.googleapis.com/maps/api/place"
+        case .qa:
+            return "https://maps.googleapis.com/maps/api/place"
+        case .staging:
+            return "https://maps.googleapis.com/maps/api/place"
+        }
+    }
+        
+        var baseURL: URL {
+            guard let url = URL(string: environmentBaseURL) else { fatalError("BaseURL could not be configure") }
+            return url
+        }
+        
+        var path: String {
+            switch self {
+            case .autoComplete:
+                return "/autocomplete/json"
+            case .getOnePlace:
+                return "/textsearch/json"
+            case .getPlaces:
+                return "wow"
+            }
+        }
+        
+        var httpMethod: HTTPMethod {
+            return .get
+        }
+        
+        var task: HTTPTask {
+            switch self {
+            case .autoComplete(input: let input, key: let key):
+                return .requestParameter(bodyParameters: nil, urlParameters: ["input" : input, "key" : key])
+                
+            case .getOnePlace(input: let input, key: let key):
+                return .requestParameter(bodyParameters: nil, urlParameters: ["input" : input, "key" : key])
+            default:
+                return .request
+            }
+        }
+        
+        var headers: HTTPHeaders? {
+            return nil
+        }
+}

@@ -14,7 +14,15 @@ protocol SavingWaypoint {
 }
 
 class WaypointViewController: UIViewController {
-
+    private var apiKey: String?
+    private var autoResult: [String] = [] {
+        didSet {
+            for address in self.autoResult {
+                self.getGeocode(address: address)
+            }
+        }
+    }
+    private let networkManager = NetworkManager()
     var delegate: SavingWaypoint?
     
     override func viewDidLoad() {
@@ -25,6 +33,7 @@ class WaypointViewController: UIViewController {
         
         setupMapView()
         configNavbar()
+        requestAutoComplete()
     }
     
     var mapView: MKMapView = {
@@ -41,7 +50,6 @@ class WaypointViewController: UIViewController {
             mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-//            mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2 / 3)
             ])
     }
     let searchController = UISearchController(searchResultsController: nil)
@@ -55,6 +63,32 @@ class WaypointViewController: UIViewController {
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveWaypoint))
+    }
+    
+    func requestAutoComplete() {
+        networkManager.getAPIKey { (key) in
+            self.networkManager.getAutoCompleteResult(input: "San Francisco", key: key, completion: { (result) in
+                switch result {
+                case .success(let addresses):
+                    self.autoResult = addresses
+                case .failure(let error):
+                    print(error)
+                }
+            })
+        }
+    }
+    
+    func getGeocode(address: String) {
+        networkManager.getAppIdAndCode { (appInfo) in
+            self.networkManager.getGeocode(address: address, appId: appInfo.0, appCode: appInfo.1, completion: { (result) in
+                switch result {
+                case.success:
+                    print("success")
+                case .failure(let error):
+                    print(error)
+                }
+            })
+        }
     }
 }
 
