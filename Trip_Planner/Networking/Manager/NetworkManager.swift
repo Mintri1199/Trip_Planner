@@ -64,7 +64,7 @@ struct NetworkManager {
         
         do {
             if let xmlContents = xmlContents {
-                data = try (PropertyListSerialization.propertyList(from:xmlContents, options:.mutableContainersAndLeaves, format:&format) as? [String:AnyObject] ?? ["Error":"Error" as AnyObject])
+                data = try (PropertyListSerialization.propertyList(from:xmlContents, options: .mutableContainersAndLeaves, format:&format) as? [String: AnyObject] ?? ["Error": "Error" as AnyObject])
                 
                 if let appId = data["App Id"] as? String , let appCode = data["App Code"] as? String{
                     let idAndCode = (appId, appCode)
@@ -100,6 +100,7 @@ struct NetworkManager {
                             // Loop through the prediction array and append the address array with newly instantiated Waypoint model
                             for item in predictionArray {
                                 if let address = item["description"] as? String {
+                                    
                                     arrayOfAddresses.append(address)
                                 }
                             }
@@ -120,29 +121,31 @@ struct NetworkManager {
         }
     }
     
-    func getGeocode(address: String, appId: String, appCode: String, completion: @escaping (Result<Waypoint, NetworkReponse>) -> Void) {
-        geocodeRouter.request(.geocodeOnePlace(address: address, appId: appId, appCode: appCode)) { (data, response, error) in
-            if error != nil {
-                print("Check your network connection")
-                return
-            }
-            
-            if let response = response as? HTTPURLResponse {
-                let result = self.newHandleNetworkResponse(response)
-                switch result {
-                case .success:
-                    guard let responseData = data  else { completion(.failure(.noData)); return }
-                    
-                    do {
-                        let apiResponse = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers) as? [String: Any]
-                        print(apiResponse)
-                    } catch {
-                        completion(.failure(.unableToDecode))
-                    }
-                case .failure(let networkFailureError):
-                    completion(.failure(networkFailureError))
+    func getGeocode(address: String, completion: @escaping (Result<JSONResponse, NetworkReponse>) -> Void) {
+        self.getAppIdAndCode { (result) in
+            self.geocodeRouter.request(.geocodeOnePlace(address: address, appId: result.0, appCode: result.1), completion: { (data, response, error) in
+                if error != nil {
+                    print("Check your network connection")
+                    return
                 }
-            }
+                
+                if let response = response as? HTTPURLResponse {
+                    let result = self.newHandleNetworkResponse(response)
+                    switch result {
+                    case .success:
+                        guard let responseData = data  else { completion(.failure(.noData)); return }
+                        
+                        do {
+                            let parsedJson = try JSONDecoder().decode(JSONResponse.self, from: responseData)
+                            completion(.success(parsedJson))
+                        } catch {
+                            completion(.failure(.unableToDecode))
+                        }
+                    case .failure(let networkFailureError):
+                        completion(.failure(networkFailureError))
+                    }
+                }
+            })
         }
     }
 }

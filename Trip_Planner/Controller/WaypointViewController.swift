@@ -18,7 +18,15 @@ class WaypointViewController: UIViewController {
     private var autoResult: [String] = [] {
         didSet {
             for address in self.autoResult {
-                self.getGeocode(address: address)
+                self.networkManager.getGeocode(address: address) { (result) in
+                    switch result {
+                    case.success(let model):
+                        print(model)
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+                
             }
         }
     }
@@ -27,7 +35,7 @@ class WaypointViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
@@ -41,7 +49,7 @@ class WaypointViewController: UIViewController {
         mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
-
+    
     private func setupMapView() {
         view.addSubview(mapView)
         
@@ -79,15 +87,13 @@ class WaypointViewController: UIViewController {
     }
     
     func getGeocode(address: String) {
-        networkManager.getAppIdAndCode { (appInfo) in
-            self.networkManager.getGeocode(address: address, appId: appInfo.0, appCode: appInfo.1, completion: { (result) in
-                switch result {
-                case.success:
-                    print("success")
-                case .failure(let error):
-                    print(error)
-                }
-            })
+        networkManager.getGeocode(address: address) { (result) in
+            switch result {
+            case .success:
+                print("success")
+            case.failure(let error):
+                print(error)
+            }
         }
     }
 }
