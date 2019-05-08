@@ -42,6 +42,7 @@
 		44983E4422783A9E000DA60C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44983E4322783A9E000DA60C /* NetworkManager.swift */; };
 		44983E4622783FD7000DA60C /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44983E4522783FD7000DA60C /* FloatingButton.swift */; };
 		44ECB61122802060007909C3 /* GeocoderEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ECB61022802060007909C3 /* GeocoderEndpoint.swift */; };
+		44ECB65722825C65007909C3 /* JSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ECB65622825C65007909C3 /* JSONModel.swift */; };
 		4C437C3D3BBAC53CA6D42005 /* Pods_Trip_Planner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F127EA944EAFF3AE3B7A537 /* Pods_Trip_Planner.framework */; };
 		AFFBA63F47DEEB1BA7997415 /* Pods_Trip_PlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765D9935A3B23D2931C752EA /* Pods_Trip_PlannerUITests.framework */; };
 /* End PBXBuildFile section */
@@ -107,6 +108,7 @@
 		44983E4322783A9E000DA60C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		44983E4522783FD7000DA60C /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
 		44ECB61022802060007909C3 /* GeocoderEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocoderEndpoint.swift; sourceTree = "<group>"; };
+		44ECB65622825C65007909C3 /* JSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModel.swift; sourceTree = "<group>"; };
 		6279A44B0EBD03EA217617AF /* Pods-Trip_PlannerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trip_PlannerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trip_PlannerTests/Pods-Trip_PlannerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6A322E8AFBF7AD632C7E22F2 /* Pods-Trip_PlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trip_PlannerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trip_PlannerUITests/Pods-Trip_PlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		74E470F0D475392C579C73AB /* Pods_Trip_PlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trip_PlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -228,6 +230,7 @@
 			children = (
 				44983E1322756E60000DA60C /* TripModel.swift */,
 				44983E182275766B000DA60C /* WaypointModel.swift */,
+				44ECB65622825C65007909C3 /* JSONModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -546,6 +549,7 @@
 				442ABD3D226A71C6002838C3 /* MainTableViewController.swift in Sources */,
 				44983E3322783927000DA60C /* JSONParameterEncoder.swift in Sources */,
 				44983E1F22757E07000DA60C /* TripDetailViewController.swift in Sources */,
+				44ECB65722825C65007909C3 /* JSONModel.swift in Sources */,
 				442ABD40226A8672002838C3 /* TripNameTextField.swift in Sources */,
 				44983E2122757E60000DA60C /* WaypointTableView.swift in Sources */,
 				44983E3122783915000DA60C /* URLParameterEncoder.swift in Sources */,

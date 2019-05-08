@@ -16,5 +16,4 @@ struct Trip{
     init(name: String) {
         self.name = name
     }
-//    var wayPoints: [Waypoint]
 }

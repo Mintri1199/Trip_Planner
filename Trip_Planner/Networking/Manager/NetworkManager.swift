@@ -34,7 +34,7 @@ struct NetworkManager {
     }
     
     // Get API key for google map platform
-    func getAPIKey(_ completion: @escaping(String) -> Void) {
+    private func getAPIKey(_ completion: @escaping(String) -> Void) {
         var format = PropertyListSerialization.PropertyListFormat.xml
         var data: [String: AnyObject] = [:]
         let path: String? = Bundle.main.path(forResource: "Info", ofType: "plist")
@@ -56,7 +56,7 @@ struct NetworkManager {
         }
     }
     // Get app id and code for geocoder
-    func getAppIdAndCode(_ completion: @escaping((String, String)) -> Void) {
+    private func getAppIdAndCode(_ completion: @escaping((String, String)) -> Void) {
         var format = PropertyListSerialization.PropertyListFormat.xml
         var data: [String: AnyObject] = [:]
         let path: String? = Bundle.main.path(forResource: "Info", ofType: "plist")
@@ -78,44 +78,46 @@ struct NetworkManager {
         }
     }
     
-    func getAutoCompleteResult(input: String, key: String, completion: @escaping (Result<[String], NetworkReponse>) -> Void) {
-        googleMapRouter.request(.autoComplete(input: input, key: key)) { (data, response, error) in
-            if error != nil {
-                print("Check your network connection")
-                return
-            }
-            
-            if let response = response as? HTTPURLResponse {
-                let result = self.newHandleNetworkResponse(response)
-                switch result {
-                case .success:
-                    guard let responseData = data  else { completion(.failure(.noData)); return }
-                    
-                    do {
-                        let apiResponse = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers) as? [String: Any]
+    func getAutoCompleteResult(input: String, completion: @escaping (Result<[String], NetworkReponse>) -> Void) {
+        getAPIKey { (key) in
+            self.googleMapRouter.request(.autoComplete(input: input, key: key)) { (data, response, error) in
+                if error != nil {
+                    print("Check your network connection")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse {
+                    let result = self.newHandleNetworkResponse(response)
+                    switch result {
+                    case .success:
+                        guard let responseData = data  else { completion(.failure(.noData)); return }
                         
-                        // Access the prediction array in from the json
-                        if let predictionArray = apiResponse!["predictions"] as? [[String: Any]] {
-                            var arrayOfAddresses: [String] = []
-                            // Loop through the prediction array and append the address array with newly instantiated Waypoint model
-                            for item in predictionArray {
-                                if let address = item["description"] as? String {
-                                    
-                                    arrayOfAddresses.append(address)
+                        do {
+                            let apiResponse = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers) as? [String: Any]
+                            
+                            // Access the prediction array in from the json
+                            if let predictionArray = apiResponse!["predictions"] as? [[String: Any]] {
+                                var arrayOfAddresses: [String] = []
+                                // Loop through the prediction array and append the address array with newly instantiated Waypoint model
+                                for item in predictionArray {
+                                    if let address = item["description"] as? String {
+                                        
+                                        arrayOfAddresses.append(address)
+                                    }
+                                }
+                                // Later if there's time, add a no data error handling state
+                                if !arrayOfAddresses.isEmpty {
+                                    completion(.success(arrayOfAddresses))
+                                } else {
+                                    completion(.failure(.noData))
                                 }
                             }
-                            // Later if there's time, add a no data error handling state
-                            if !arrayOfAddresses.isEmpty {
-                                completion(.success(arrayOfAddresses))
-                            } else {
-                                completion(.failure(.noData))
-                            }
+                        } catch {
+                            completion(.failure(.unableToDecode))
                         }
-                    } catch {
-                        completion(.failure(.unableToDecode))
+                    case .failure(let networkFailureError):
+                        completion(.failure(networkFailureError))
                     }
-                case .failure(let networkFailureError):
-                    completion(.failure(networkFailureError))
                 }
             }
         }

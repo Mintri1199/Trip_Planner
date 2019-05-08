@@ -20,6 +20,7 @@ class TripDetailViewController: UIViewController {
         self.title = "Waypoints"
         setupEmptyView()
         emptyView.getStartedButton.addTarget(self, action: #selector(pushToWaypointVC), for: .touchUpInside)
+        topView.getStartedButton.addTarget(self, action: #selector(pushToWaypointVC), for: .touchUpInside)
     }
     
     let emptyView = EmptyWaypointView(frame: UIScreen.main.bounds)
@@ -52,7 +53,6 @@ class TripDetailViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2 / 3),
             topView.bottomAnchor.constraint(equalTo: tableView.topAnchor),
-            
             ])
     }
 }

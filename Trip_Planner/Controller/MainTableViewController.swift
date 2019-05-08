@@ -71,22 +71,6 @@ class MainTableViewController: UITableViewController {
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-//
-//    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
-    
-    /*
-    // Override to support editing the table view.
-    // Make sure to delete the planned trip from core data and firebase
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }*/
 }
 // Views and Navigation
 extension MainTableViewController {

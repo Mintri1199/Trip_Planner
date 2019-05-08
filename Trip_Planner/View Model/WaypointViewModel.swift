@@ -7,12 +7,27 @@
 //
 
 import Foundation
+import MapKit
 
+// Waypoint view model for the trip detail table view
 struct WaypointViewModel {
     let name: String
-    
     // Dependency Injection (DI)
-    init(waypoint: Waypoint){
-        self.name = waypoint.name
+    init(wayPoint: Waypoint){
+        self.name = wayPoint.name
     }
+}
+
+// The pin for the map view 
+class MapViewViewModel: NSObject, MKAnnotation {
+    var title: String?
+    var coordinate: CLLocationCoordinate2D
+    
+    init(wayPoint: Waypoint) {
+        self.title = wayPoint.name
+        self.coordinate = CLLocationCoordinate2D(latitude: wayPoint.lat, longitude: wayPoint.lng)
+        
+        super.init()
+    }
+
 }

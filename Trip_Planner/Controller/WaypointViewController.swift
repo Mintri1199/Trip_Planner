@@ -18,18 +18,14 @@ class WaypointViewController: UIViewController {
     private var autoResult: [String] = [] {
         didSet {
             for address in self.autoResult {
-                self.networkManager.getGeocode(address: address) { (result) in
-                    switch result {
-                    case.success(let model):
-                        print(model)
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
-                
+                self.getGeocode(address: address)
             }
         }
     }
+    private var mapPins: [MapViewViewModel] = []
+    
+    private var searchResultWaypoints: [Waypoint] = []
+    
     private let networkManager = NetworkManager()
     var delegate: SavingWaypoint?
     
@@ -74,8 +70,7 @@ class WaypointViewController: UIViewController {
     }
     
     func requestAutoComplete() {
-        networkManager.getAPIKey { (key) in
-            self.networkManager.getAutoCompleteResult(input: "San Francisco", key: key, completion: { (result) in
+        networkManager.getAutoCompleteResult(input: "San Francisco", completion: { (result) in
                 switch result {
                 case .success(let addresses):
                     self.autoResult = addresses
@@ -83,14 +78,13 @@ class WaypointViewController: UIViewController {
                     print(error)
                 }
             })
-        }
     }
     
     func getGeocode(address: String) {
         networkManager.getGeocode(address: address) { (result) in
             switch result {
-            case .success:
-                print("success")
+            case .success(let model):
+                self.searchResultWaypoints.append(Waypoint(jsonresult: model))
             case.failure(let error):
                 print(error)
             }
@@ -105,9 +99,15 @@ extension WaypointViewController {
     }
     
     @objc func saveWaypoint() {
-        print("saveButton Tapped")
-        delegate?.save()
-        navigationController?.popViewController(animated: true)
+//        print("saveButton Tapped")
+//        delegate?.save()
+//        navigationController?.popViewController(animated: true)
+        
+        for waypoint in searchResultWaypoints {
+            let annotation = MapViewViewModel.init(wayPoint: waypoint)
+            mapPins.append(annotation)
+        }
+        
+        mapView.addAnnotations(mapPins)
     }
-    
 }
