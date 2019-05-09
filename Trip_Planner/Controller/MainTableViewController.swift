@@ -7,19 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class MainTableViewController: UITableViewController {
     // TODO: Change this later one when implemented Core Data
     
-    var tripViewModels = [TripViewModel](){
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+    var tripStore: TripStore!
     
-    var listOfTrip: [String] = [] {
+    var tripViewModels = [TripViewModel](){
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -39,6 +34,13 @@ class MainTableViewController: UITableViewController {
         configNavbar()
         setupFloatingButtons()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        // Save the new items in the Managed Object Context
+        
+        tripStore.saveContext()
+        populatePersistent()
+    }
 
     // MARK: - Table view data source
 
@@ -51,6 +53,7 @@ class MainTableViewController: UITableViewController {
         }
         return tripViewModels.count
     }
+    
     // TODO: Change this later one when implemented Core Data
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
@@ -105,11 +108,30 @@ extension MainTableViewController {
             floatingButton.widthAnchor.constraint(equalToConstant: 60)
             ])
     }
+    
+    private func populatePersistent() {
+        tripStore.fetchPersistedData { (result) in
+            switch result {
+            case .success(let listOfTrips):
+                for trip in listOfTrips {
+                    self.tripViewModels.append(TripViewModel.init(trip: trip))
+                }
+            case .failure(let error):
+                self.tripViewModels.removeAll()
+            }
+            // reload the table view's data source to present the current data set
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension MainTableViewController: CreateTrip {
-    // TODO: Change this later one when implemented Core Data
     func createTrip(tripName: String) {
-        tripViewModels.append(TripViewModel.init(trip: Trip(name: tripName)))
+        // Instantiate new
+        let newTrip = NSEntityDescription.insertNewObject(forEntityName: "TripPersistent", into: tripStore.persistentContainer.viewContext) as? TripPersistent
+        newTrip?.name = tripName
+        if let trip = newTrip {
+            tripViewModels.append(TripViewModel.init(trip: trip))
+        }
     }
 }

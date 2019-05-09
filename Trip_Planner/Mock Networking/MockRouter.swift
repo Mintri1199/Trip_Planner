@@ -19,9 +19,9 @@ class MockRouter<EndPoint: EndPointType>: NetworkRouter {
         do {
             let request = try self.buildRequest(from: route)
             self.lastURL = request.url
-            task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            task = (session.dataTask(with: request, completionHandler: { (data, response, error) in
                 completion(data, response, error)
-            }) as! MockURLSessionDataTask
+            }) as? MockURLSessionDataTask)
         } catch {
             completion(nil, nil, error)
         }

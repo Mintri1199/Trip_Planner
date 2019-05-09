@@ -21,8 +21,7 @@ public enum GooglePlacesApi {
 }
 
 extension GooglePlacesApi: EndPointType {
-//    https://maps.googleapis.com/maps/api/place/autocomplete/json?input=1600+Amphitheatre&key=<API_KEY>&sessiontoken=1234567890
-
+    
     var environmentBaseURL: String {
         switch NetworkManager.environment {
         case .production:

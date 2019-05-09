@@ -10,9 +10,8 @@ import Foundation
 
 struct TripViewModel {
     let name: String
-    
     // Dependency Injection (DI)
-    init(trip: Trip){
-        self.name = trip.name
+    init(trip: TripPersistent){
+        self.name = trip.name!
     }
 }
