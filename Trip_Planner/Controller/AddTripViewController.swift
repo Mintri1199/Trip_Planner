@@ -108,7 +108,6 @@ extension AddTripViewController {
     }
 }
 
-
 extension AddTripViewController: UITextFieldDelegate {
     // Hide the keyboard when the user tap return
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -11,7 +11,8 @@ import UIKit
 // This View controller will have a tableView 2/3 of the screen
 class TripDetailViewController: UIViewController {
     var tripName: String = ""
-    
+    var selectedTrip: TripPersistent!
+    var tripStore: TripStore!
     var waypointViewModels = [WaypointViewModel]()
     
     override func viewDidLoad() {
@@ -21,6 +22,12 @@ class TripDetailViewController: UIViewController {
         setupEmptyView()
         emptyView.getStartedButton.addTarget(self, action: #selector(pushToWaypointVC), for: .touchUpInside)
         topView.getStartedButton.addTarget(self, action: #selector(pushToWaypointVC), for: .touchUpInside)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        tripStore.saveContext()
     }
     
     let emptyView = EmptyWaypointView(frame: UIScreen.main.bounds)
@@ -55,19 +62,23 @@ class TripDetailViewController: UIViewController {
             topView.bottomAnchor.constraint(equalTo: tableView.topAnchor),
             ])
     }
+    
+//    private populatePersistentWaypoints() {
+//        
+//    }
 }
 
 // All @objc functions
 extension TripDetailViewController {
     @objc func pushToWaypointVC() {
         let waypointVC = WaypointViewController()
-        waypointVC.delegate = self
+        waypointVC.tripStore = tripStore
         navigationController?.pushViewController(waypointVC, animated: true)
     }
 }
-
-extension TripDetailViewController: SavingWaypoint {
-    func save() {
-        restore()
-    }
-}
+//
+//extension TripDetailViewController: SavingWaypoint {
+//    func save() {
+//        restore()
+//    }
+//}

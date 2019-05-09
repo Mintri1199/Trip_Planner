@@ -8,26 +8,16 @@
 
 import UIKit
 import MapKit
-
-protocol SavingWaypoint {
-    func save()
-}
+import CoreData
 
 class WaypointViewController: UIViewController {
-    private var apiKey: String?
-//    private var autoResult: [String] = [] {
-//        didSet {
-//            for address in self.autoResult {
-//                self.getGeocode(address: address)
-//            }
-//        }
-//    }
-    private var mapPins: [MapViewViewModel] = []
-    
-    private var searchResultWaypoints: [Waypoint] = []
-    
+
+    private var selectedWaypoint: Waypoint?
+    var trip: TripPersistent?
+    private var selectedMapPin: MapViewViewModel?
     private let networkManager = NetworkManager()
-    var delegate: SavingWaypoint?
+    var tripStore: TripStore!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +28,6 @@ class WaypointViewController: UIViewController {
         setupMapView()
         configNavbar()
         setupSearchController()
-//        requestAutoComplete()
     }
     
     var mapView: MKMapView = {
@@ -73,6 +62,7 @@ class WaypointViewController: UIViewController {
         waypointSearchController?.searchBar.placeholder = "Enter Address Here"
         waypointSearchController?.hidesNavigationBarDuringPresentation = false
         self.navigationItem.searchController = waypointSearchController
+        searchTableController.delegate = self
         definesPresentationContext = true
     }
 }
@@ -84,15 +74,37 @@ extension WaypointViewController {
     }
     
     @objc func saveWaypoint() {
-//        print("saveButton Tapped")
-//        delegate?.save()
-//        navigationController?.popViewController(animated: true)
-        
-        for waypoint in searchResultWaypoints {
-            let annotation = MapViewViewModel.init(wayPoint: waypoint)
-            mapPins.append(annotation)
+        let context = tripStore.persistentContainer.viewContext
+        if let waypoint = selectedWaypoint, let trip = trip {
+            let newWaypoint = WaypointPersistent(context: context)
+            
+            newWaypoint.latitude = waypoint.lat
+            newWaypoint.longitude = waypoint.lng
+            newWaypoint.name = waypoint.name
+            
+            trip.addToTrip(newWaypoint)
+            tripStore.saveContext()
+        } else {
+            let alertController = UIAlertController(title: "You didn't select a location ", message: "Search and select a location in order to save", preferredStyle: .alert)
+            
+            alertController.addAction(.init(title: "Ok", style: .cancel, handler: nil))
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+}
+
+extension WaypointViewController: ViewWaypointPin {
+    func showPin(waypoint: Waypoint) {
+        if let existedPin = selectedMapPin {
+            mapView.removeAnnotation(existedPin)
         }
         
-        mapView.addAnnotations(mapPins)
+        selectedWaypoint = waypoint
+        selectedMapPin = MapViewViewModel(wayPoint: waypoint)
+        
+        mapView.addAnnotation(selectedMapPin!)
+        let coordinateRegion = MKCoordinateRegion(center: selectedMapPin!.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        
+        mapView.setRegion(coordinateRegion, animated: true)
     }
 }

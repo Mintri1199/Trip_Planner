@@ -8,7 +8,9 @@
 
 import UIKit
 import MapKit
-
+protocol ViewWaypointPin {
+    func showPin(waypoint: Waypoint)
+}
 class SearchResultTableViewController: UITableViewController {
     var autoCompleteResult: [Waypoint] = [] {
         didSet {
@@ -17,6 +19,7 @@ class SearchResultTableViewController: UITableViewController {
             }
         }
     }
+    var delegate: ViewWaypointPin?
     private let resuseID = "resultCell"
     private let networkManager = NetworkManager()
     
@@ -35,10 +38,16 @@ class SearchResultTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: resuseID, for: indexPath)
-        
+        print(autoCompleteResult.count)
         let waypoint = autoCompleteResult[indexPath.row]
         cell.textLabel?.text = waypoint.name
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedWaypoint = autoCompleteResult[indexPath.row]
+        delegate?.showPin(waypoint: selectedWaypoint)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

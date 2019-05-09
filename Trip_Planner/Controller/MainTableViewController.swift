@@ -63,15 +63,39 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailView = TripDetailViewController()
-        detailView.tripName = tripViewModels[indexPath.row].name
-        navigationController?.pushViewController(detailView, animated: true)
+        let tripName = tripViewModels[indexPath.row]
+        tripStore.fetchOneTrip(name: tripName.name) { (result) in
+            switch result {
+            case .success(let trip):
+                let detailView = TripDetailViewController()
+                detailView.tripStore = tripStore
+                detailView.selectedTrip = trip
+                detailView.tripName = tripViewModels[indexPath.row].name
+                self.navigationController?.pushViewController(detailView, animated: true)
+            case.failure(let error):
+                print(error)
+            }
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            tripViewModels.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            let selectedTrip = tripViewModels[indexPath.row]
+        
+            tripStore.fetchOneTrip(name: selectedTrip.name) { (result) in
+                switch result {
+                case .success(let trip):
+                    let context = tripStore.persistentContainer.viewContext
+                    context.delete(trip)
+                    self.tripViewModels.remove(at: indexPath.row)
+                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            tripStore.saveContext()
+            
         }
     }
 }
