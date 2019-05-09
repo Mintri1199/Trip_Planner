@@ -37,7 +37,7 @@ class MainTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         // Save the new items in the Managed Object Context
-        
+        tripViewModels = []
         tripStore.saveContext()
         populatePersistent()
     }
@@ -108,7 +108,11 @@ extension MainTableViewController {
             floatingButton.widthAnchor.constraint(equalToConstant: 60)
             ])
     }
-    
+}
+
+// Core Data function
+extension MainTableViewController {
+    // Update the tableView's data source
     private func populatePersistent() {
         tripStore.fetchPersistedData { (result) in
             switch result {
@@ -121,6 +125,19 @@ extension MainTableViewController {
             }
             // reload the table view's data source to present the current data set
             self.tableView.reloadData()
+        }
+    }
+    func deleteTrip(at index: Int) {
+        // Delete the user-selected item from the context
+        let viewContext = tripStore.persistentContainer.viewContext
+        let targetedTripName = tripViewModels[index]
+        tripStore.fetchOneTrip(name: targetedTripName.name) { (result) in
+            switch result {
+            case .success(let trip):
+                viewContext.delete(trip)
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }

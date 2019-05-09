@@ -51,6 +51,7 @@
 		44ECB6872283A660007909C3 /* WaypointPersitent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ECB6832283A660007909C3 /* WaypointPersitent+CoreDataClass.swift */; };
 		44ECB6882283A660007909C3 /* WaypointPersitent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ECB6842283A660007909C3 /* WaypointPersitent+CoreDataProperties.swift */; };
 		44ECB6892283A8D9007909C3 /* Trip_Planner.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = 44ECB6762283A588007909C3 /* Trip_Planner.xcdatamodeld */; };
+		44ECB68B2284C5CF007909C3 /* SearchResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ECB68A2284C5CE007909C3 /* SearchResultTableViewController.swift */; };
 		4C437C3D3BBAC53CA6D42005 /* Pods_Trip_Planner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F127EA944EAFF3AE3B7A537 /* Pods_Trip_Planner.framework */; };
 		AFFBA63F47DEEB1BA7997415 /* Pods_Trip_PlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765D9935A3B23D2931C752EA /* Pods_Trip_PlannerUITests.framework */; };
 /* End PBXBuildFile section */
@@ -125,6 +126,7 @@
 		44ECB6822283A660007909C3 /* TripPersistent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripPersistent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		44ECB6832283A660007909C3 /* WaypointPersitent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WaypointPersitent+CoreDataClass.swift"; sourceTree = "<group>"; };
 		44ECB6842283A660007909C3 /* WaypointPersitent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WaypointPersitent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		44ECB68A2284C5CE007909C3 /* SearchResultTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewController.swift; sourceTree = "<group>"; };
 		6279A44B0EBD03EA217617AF /* Pods-Trip_PlannerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trip_PlannerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trip_PlannerTests/Pods-Trip_PlannerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6A322E8AFBF7AD632C7E22F2 /* Pods-Trip_PlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trip_PlannerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trip_PlannerUITests/Pods-Trip_PlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		74E470F0D475392C579C73AB /* Pods_Trip_PlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trip_PlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,6 +239,7 @@
 				442ABD3C226A71C6002838C3 /* MainTableViewController.swift */,
 				44983E1E22757E07000DA60C /* TripDetailViewController.swift */,
 				44983E262275931B000DA60C /* WaypointViewController.swift */,
+				44ECB68A2284C5CE007909C3 /* SearchResultTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -588,6 +591,7 @@
 				44983E3322783927000DA60C /* JSONParameterEncoder.swift in Sources */,
 				44983E1F22757E07000DA60C /* TripDetailViewController.swift in Sources */,
 				44ECB65722825C65007909C3 /* JSONModel.swift in Sources */,
+				44ECB68B2284C5CF007909C3 /* SearchResultTableViewController.swift in Sources */,
 				44ECB6862283A660007909C3 /* TripPersistent+CoreDataProperties.swift in Sources */,
 				442ABD40226A8672002838C3 /* TripNameTextField.swift in Sources */,
 				44983E2122757E60000DA60C /* WaypointTableView.swift in Sources */,

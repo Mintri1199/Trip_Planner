@@ -11,6 +11,6 @@ import Foundation
 import CoreData
 
 @objc(WaypointPersitent)
-public class WaypointPersitent: NSManagedObject {
+public class WaypointPersistent: NSManagedObject {
 
 }

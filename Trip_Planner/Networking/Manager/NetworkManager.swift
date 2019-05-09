@@ -139,7 +139,12 @@ struct NetworkManager {
                         
                         do {
                             let parsedJson = try JSONDecoder().decode(JSONResponse.self, from: responseData)
-                            completion(.success(parsedJson))
+                            // The geocoder can't find the the coordinate
+                            if parsedJson.response.view.isEmpty {
+                                completion(.failure(.noData))
+                            } else {
+                                completion(.success(parsedJson))
+                            }
                         } catch {
                             completion(.failure(.unableToDecode))
                         }

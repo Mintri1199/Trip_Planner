@@ -2,8 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>App Code</key>
+	<string>-Ilx73FREGX4FG-GUosKWQ</string>
+	<key>App Id</key>
+	<string>0rHMluGL39NscjPmZ07s</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC0MiUU86uXh7I9FGGwUe19vj2Olt74nm0</string>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>en_US</string>
 	<key>CFBundleDisplayName</key>
 	<string>Trip Planner</string>
 	<key>CFBundleExecutable</key>

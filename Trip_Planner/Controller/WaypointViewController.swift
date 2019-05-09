@@ -15,13 +15,13 @@ protocol SavingWaypoint {
 
 class WaypointViewController: UIViewController {
     private var apiKey: String?
-    private var autoResult: [String] = [] {
-        didSet {
-            for address in self.autoResult {
-                self.getGeocode(address: address)
-            }
-        }
-    }
+//    private var autoResult: [String] = [] {
+//        didSet {
+//            for address in self.autoResult {
+//                self.getGeocode(address: address)
+//            }
+//        }
+//    }
     private var mapPins: [MapViewViewModel] = []
     
     private var searchResultWaypoints: [Waypoint] = []
@@ -37,7 +37,8 @@ class WaypointViewController: UIViewController {
         
         setupMapView()
         configNavbar()
-        requestAutoComplete()
+        setupSearchController()
+//        requestAutoComplete()
     }
     
     var mapView: MKMapView = {
@@ -56,39 +57,23 @@ class WaypointViewController: UIViewController {
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             ])
     }
-    let searchController = UISearchController(searchResultsController: nil)
+    let searchTableController = SearchResultTableViewController()
+    var waypointSearchController: UISearchController? = nil
     
     fileprivate func configNavbar() {
         self.title = "Add Waypoint"
-        
-        self.navigationItem.searchController = searchController
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Enter Address Here"
-        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveWaypoint))
     }
     
-    func requestAutoComplete() {
-        networkManager.getAutoCompleteResult(input: "San Francisco", completion: { (result) in
-                switch result {
-                case .success(let addresses):
-                    self.autoResult = addresses
-                case .failure(let error):
-                    print(error)
-                }
-            })
-    }
-    
-    func getGeocode(address: String) {
-        networkManager.getGeocode(address: address) { (result) in
-            switch result {
-            case .success(let model):
-                self.searchResultWaypoints.append(Waypoint(jsonresult: model))
-            case.failure(let error):
-                print(error)
-            }
-        }
+    fileprivate func setupSearchController() {
+        waypointSearchController = UISearchController(searchResultsController: searchTableController)
+        waypointSearchController?.obscuresBackgroundDuringPresentation = false
+        waypointSearchController?.searchResultsUpdater = searchTableController
+        waypointSearchController?.searchBar.placeholder = "Enter Address Here"
+        waypointSearchController?.hidesNavigationBarDuringPresentation = false
+        self.navigationItem.searchController = waypointSearchController
+        definesPresentationContext = true
     }
 }
 

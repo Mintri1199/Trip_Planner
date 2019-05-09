@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension TripPersistent {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TripPersistent> {
@@ -27,10 +26,10 @@ extension TripPersistent {
 extension TripPersistent {
 
     @objc(addTripObject:)
-    @NSManaged public func addToTrip(_ value: WaypointPersitent)
+    @NSManaged public func addToTrip(_ value: WaypointPersistent)
 
     @objc(removeTripObject:)
-    @NSManaged public func removeFromTrip(_ value: WaypointPersitent)
+    @NSManaged public func removeFromTrip(_ value: WaypointPersistent)
 
     @objc(addTrip:)
     @NSManaged public func addToTrip(_ values: NSSet)

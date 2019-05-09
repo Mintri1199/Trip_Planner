@@ -14,6 +14,7 @@ struct Waypoint {
     let lat: Double
     
     init(jsonresult: JSONResponse){
+        print(jsonresult)
         self.name = jsonresult.response.view[0].result[0].location.address.label  // Holy what the heck
         self.lng = jsonresult.response.view[0].result[0].location.displayPosition.longitude
         self.lat = jsonresult.response.view[0].result[0].location.displayPosition.latitude

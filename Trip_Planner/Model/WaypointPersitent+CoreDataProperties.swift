@@ -11,10 +11,10 @@ import Foundation
 import CoreData
 
 
-extension WaypointPersitent {
+extension WaypointPersistent {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<WaypointPersitent> {
-        return NSFetchRequest<WaypointPersitent>(entityName: "WaypointPersitent")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<WaypointPersistent> {
+        return NSFetchRequest<WaypointPersistent>(entityName: "WaypointPersitent")
     }
 
     @NSManaged public var name: String?
