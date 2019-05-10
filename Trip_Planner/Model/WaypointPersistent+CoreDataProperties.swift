@@ -1,8 +1,8 @@
 //
-//  WaypointPersitent+CoreDataProperties.swift
+//  WaypointPersistent+CoreDataProperties.swift
 //  Trip_Planner
 //
-//  Created by Jackson Ho on 5/8/19.
+//  Created by Jackson Ho on 5/9/19.
 //  Copyright © 2019 Jackson Ho. All rights reserved.
 //
 //
@@ -14,12 +14,12 @@ import CoreData
 extension WaypointPersistent {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<WaypointPersistent> {
-        return NSFetchRequest<WaypointPersistent>(entityName: "WaypointPersitent")
+        return NSFetchRequest<WaypointPersistent>(entityName: "WaypointPersistent")
     }
 
     @NSManaged public var name: String?
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
-    @NSManaged public var waypoint: TripPersistent?
+    @NSManaged public var parentTrip: TripPersistent?
 
 }

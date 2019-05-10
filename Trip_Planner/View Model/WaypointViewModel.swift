@@ -13,8 +13,8 @@ import MapKit
 struct WaypointViewModel {
     let name: String
     // Dependency Injection (DI)
-    init(wayPoint: Waypoint){
-        self.name = wayPoint.name
+    init(wayPoint: WaypointPersistent){
+        self.name = wayPoint.name!
     }
 }
 

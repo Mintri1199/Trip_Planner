@@ -26,7 +26,7 @@ class TripDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+        populatePersistentWaypoints()
         tripStore.saveContext()
     }
     
@@ -63,9 +63,25 @@ class TripDetailViewController: UIViewController {
             ])
     }
     
-//    private populatePersistentWaypoints() {
-//        
-//    }
+    private func populatePersistentWaypoints() {
+        waypointViewModels = []
+        tripStore.fetchPersistedWaypoints(parentTrip: selectedTrip) { (result) in
+            switch result {
+            case .success(let waypoints):
+                if waypoints.isEmpty {
+                    setupEmptyView()
+                } else {
+                    for waypoint in waypoints {
+                    self.waypointViewModels.append(WaypointViewModel(wayPoint: waypoint))
+                    }
+                    restore()
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
 
 // All @objc functions
@@ -73,12 +89,7 @@ extension TripDetailViewController {
     @objc func pushToWaypointVC() {
         let waypointVC = WaypointViewController()
         waypointVC.tripStore = tripStore
+        waypointVC.trip = selectedTrip
         navigationController?.pushViewController(waypointVC, animated: true)
     }
 }
-//
-//extension TripDetailViewController: SavingWaypoint {
-//    func save() {
-//        restore()
-//    }
-//}

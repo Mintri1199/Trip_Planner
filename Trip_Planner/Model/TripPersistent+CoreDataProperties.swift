@@ -2,13 +2,14 @@
 //  TripPersistent+CoreDataProperties.swift
 //  Trip_Planner
 //
-//  Created by Jackson Ho on 5/8/19.
+//  Created by Jackson Ho on 5/9/19.
 //  Copyright © 2019 Jackson Ho. All rights reserved.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension TripPersistent {
 
@@ -17,24 +18,23 @@ extension TripPersistent {
     }
 
     @NSManaged public var name: String?
-    @NSManaged public var waypoints: NSObject?
-    @NSManaged public var trip: NSSet?
+    @NSManaged public var waypoint: NSSet?
 
 }
 
-// MARK: Generated accessors for trip
+// MARK: Generated accessors for waypoint
 extension TripPersistent {
 
-    @objc(addTripObject:)
-    @NSManaged public func addToTrip(_ value: WaypointPersistent)
+    @objc(addWaypointObject:)
+    @NSManaged public func addToWaypoint(_ value: WaypointPersistent)
 
-    @objc(removeTripObject:)
-    @NSManaged public func removeFromTrip(_ value: WaypointPersistent)
+    @objc(removeWaypointObject:)
+    @NSManaged public func removeFromWaypoint(_ value: WaypointPersistent)
 
-    @objc(addTrip:)
-    @NSManaged public func addToTrip(_ values: NSSet)
+    @objc(addWaypoint:)
+    @NSManaged public func addToWaypoint(_ values: NSSet)
 
-    @objc(removeTrip:)
-    @NSManaged public func removeFromTrip(_ values: NSSet)
+    @objc(removeWaypoint:)
+    @NSManaged public func removeFromWaypoint(_ values: NSSet)
 
 }

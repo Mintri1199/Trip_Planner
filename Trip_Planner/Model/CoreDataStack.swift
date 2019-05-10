@@ -65,7 +65,31 @@ class TripStore: NSObject {
         }
     }
     
-    func fetchPersistedWaypoint(completion: (Result<[WaypointPersistent], Error>) -> Void) {
+    func fetchPersistedWaypoints(parentTrip: TripPersistent, completion: (Result<[WaypointPersistent], Error>) -> Void) {
         let fetchRequest = NSFetchRequest<WaypointPersistent>(entityName: "WaypointPersistent")
+        fetchRequest.predicate = NSPredicate(format: "parentTrip = %@", parentTrip)
+        
+        do {
+            let result = try self.persistentContainer.viewContext.fetch(fetchRequest)
+            if result.isEmpty {
+                print("There no trip")
+            }
+            completion(.success(result))
+        } catch {
+            completion(.failure(error))
+        }
+    }
+    
+    func fetchOneWaypoint(name: String, completion: (Result<WaypointPersistent, Error>) -> Void) {
+        let fetchRequest = NSFetchRequest<WaypointPersistent>(entityName: "WaypointPersistent")
+        fetchRequest.predicate = NSPredicate(format: "name = %@", name)
+        
+        do {
+            let result = try self.persistentContainer.viewContext.fetch(fetchRequest)
+            
+            completion(.success(result.first!))
+        } catch {
+            completion(.failure(error))
+        }
     }
 }

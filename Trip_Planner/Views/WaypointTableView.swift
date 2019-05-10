@@ -34,7 +34,33 @@ extension WaypointTableView: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let housingVC = findViewController() as? TripDetailViewController else { return UITableViewCell()}
+        
         let cell = dequeueReusableCell(withIdentifier: resuseIdentifier, for: indexPath)
+        let waypoint = housingVC.waypointViewModels[indexPath.row]
+        cell.textLabel?.text = waypoint.name
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard let housingVC = findViewController() as? TripDetailViewController else { return }
+        if editingStyle == .delete {
+            let selectedWaypoint = housingVC.waypointViewModels[indexPath.row]
+            housingVC.tripStore.fetchOneWaypoint(name: selectedWaypoint.name) { (result) in
+                switch result {
+                case .success(let waypoint):
+                    let context = housingVC.tripStore.persistentContainer.viewContext
+                    housingVC.selectedTrip.removeFromWaypoint(waypoint)
+                    context.delete(waypoint)
+                    housingVC.waypointViewModels.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            housingVC.tripStore.saveContext()
+            
+        }
+
     }
 }

@@ -18,7 +18,6 @@ class WaypointViewController: UIViewController {
     private let networkManager = NetworkManager()
     var tripStore: TripStore!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,6 +74,7 @@ extension WaypointViewController {
     
     @objc func saveWaypoint() {
         let context = tripStore.persistentContainer.viewContext
+        print(selectedWaypoint)
         if let waypoint = selectedWaypoint, let trip = trip {
             let newWaypoint = WaypointPersistent(context: context)
             
@@ -82,8 +82,10 @@ extension WaypointViewController {
             newWaypoint.longitude = waypoint.lng
             newWaypoint.name = waypoint.name
             
-            trip.addToTrip(newWaypoint)
+            trip.addToWaypoint(newWaypoint)
             tripStore.saveContext()
+            navigationController?.popViewController(animated: true)
+            
         } else {
             let alertController = UIAlertController(title: "You didn't select a location ", message: "Search and select a location in order to save", preferredStyle: .alert)
             

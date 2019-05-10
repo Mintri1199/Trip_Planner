@@ -32,7 +32,9 @@ class MainTableViewController: UITableViewController {
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         configNavbar()
+        setTheme(isDark: UserDefaults.standard.bool(forKey: "theme"))
         setupFloatingButtons()
+        floatingButton.addTarget(self, action: #selector(changeTheme), for: .touchUpInside)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -57,6 +59,10 @@ class MainTableViewController: UITableViewController {
     // TODO: Change this later one when implemented Core Data
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        let isDark = UserDefaults.standard.bool(forKey: "theme")
+        let theme = isDark ? ColorTheme.dark : ColorTheme.light
+        cell.backgroundColor = theme.viewControllerBackgroundColor
+        cell.textLabel?.textColor = theme.primaryTextColor
         let trip = tripViewModels[indexPath.row]
         cell.textLabel?.text = "Trip to \(trip.name)"
         return cell
@@ -134,7 +140,7 @@ extension MainTableViewController {
     }
 }
 
-// Core Data function
+// Core Data functions
 extension MainTableViewController {
     // Update the tableView's data source
     private func populatePersistent() {
@@ -145,6 +151,7 @@ extension MainTableViewController {
                     self.tripViewModels.append(TripViewModel.init(trip: trip))
                 }
             case .failure(let error):
+                print(error)
                 self.tripViewModels.removeAll()
             }
             // reload the table view's data source to present the current data set
@@ -165,7 +172,7 @@ extension MainTableViewController {
         }
     }
 }
-
+// Core Data function
 extension MainTableViewController: CreateTrip {
     func createTrip(tripName: String) {
         // Instantiate new
@@ -174,5 +181,20 @@ extension MainTableViewController: CreateTrip {
         if let trip = newTrip {
             tripViewModels.append(TripViewModel.init(trip: trip))
         }
+    }
+}
+// Color theme
+extension MainTableViewController {
+    func setTheme(isDark: Bool) {
+        let theme = isDark ?  ColorTheme.dark : ColorTheme.light
+        
+        view.backgroundColor = theme.viewControllerBackgroundColor
+        navigationController?.navigationBar.tintColor = theme.primaryTextColor
+    }
+    
+    @objc func changeTheme() {
+        let previousBool = UserDefaults.standard.bool(forKey: "theme")
+        UserDefaults.standard.set(!previousBool, forKey: "theme")
+        setTheme(isDark: !previousBool)
     }
 }
