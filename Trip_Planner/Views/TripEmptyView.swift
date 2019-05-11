@@ -51,4 +51,6 @@ class TripEmptyView: UIView {
             messageLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -20)
             ])
     }
+
+    
 }

@@ -13,20 +13,22 @@ struct  ColorTheme {
     // Mark : -Instance vars
     static let light = ColorTheme(
                                   viewControllerBackgroundColor: .backgroundLight,
-                                  primaryTextColor: .primaryTextWhite,
-                                  secondaryTextColor: .secondaryTextWhite
+                                  primaryTextColor: .primaryTextBlack,
+                                  navbarColor: .navbarWhite,
+                                  secondaryTextColor: .secondaryTextBlack
                                  )
     
     static let dark = ColorTheme(
                                  viewControllerBackgroundColor: .backgroundDark,
-                                 primaryTextColor: .primaryTextBlack,
-                                 secondaryTextColor: .secondaryTextBlack
+                                 primaryTextColor: .primaryTextWhite,
+                                 navbarColor: .navbarGray,
+                                 secondaryTextColor: .secondaryTextWhite
                                  )
     
 
     let viewControllerBackgroundColor: UIColor
     let primaryTextColor: UIColor
-    
+    let navbarColor: UIColor
     let secondaryTextColor: UIColor
 }
 
@@ -38,11 +40,13 @@ extension UIColor {
     
     static var secondaryTextWhite = UIColor(red:1.00, green:1.00, blue:1.00, alpha:0.7)
 
+    static var navbarGray = UIColor(red:0.13, green:0.13, blue:0.13, alpha:1.0)
+
+    static var navbarWhite = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.0)
     
     static var primaryTextBlack = UIColor(red:0.00, green:0.00, blue:0.00, alpha:0.87)
     
     static var secondaryTextBlack = UIColor(red: 0, green: 0, blue: 0, alpha:0.54)
-
 
     
     static var backgroundLight = UIColor(red:0.98, green:0.98, blue:0.98, alpha:1.0)

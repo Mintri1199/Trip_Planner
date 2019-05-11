@@ -14,6 +14,7 @@ class EmptyWaypointView: UIView {
         super.init(frame: frame)
         backgroundColor = .clear
         setupConstraints()
+        setTheme()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,5 +52,14 @@ class EmptyWaypointView: UIView {
             getStartedButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             getStartedButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             ])
+    }
+    
+    func setTheme() {
+        let bool = UserDefaults.standard.bool(forKey: "theme")
+        let theme = bool ? ColorTheme.dark : ColorTheme.light
+        
+        titleLabel.textColor = theme.primaryTextColor
+        getStartedButton.setTitleColor(theme.secondaryTextColor, for: .normal)
+        backgroundColor = theme.viewControllerBackgroundColor
     }
 }

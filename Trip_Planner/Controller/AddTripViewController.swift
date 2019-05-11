@@ -27,6 +27,11 @@ class AddTripViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setTheme()
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -70,6 +75,18 @@ class AddTripViewController: UIViewController {
             }
         }
         return false
+    }
+    
+    func setTheme() {
+        let bool = UserDefaults.standard.bool(forKey: "theme")
+        let theme = bool ?  ColorTheme.dark : ColorTheme.light
+        
+        view.backgroundColor = theme.viewControllerBackgroundColor
+        navigationController?.navigationBar.barTintColor = theme.navbarColor
+        navigationController?.navigationBar.tintColor = theme.primaryTextColor
+        tripLabel.textColor = theme.primaryTextColor
+        tripTextField.backgroundColor = .lightGray
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.primaryTextColor]
     }
 }
 

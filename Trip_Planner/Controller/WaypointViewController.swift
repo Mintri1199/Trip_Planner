@@ -63,6 +63,13 @@ class WaypointViewController: UIViewController {
         self.navigationItem.searchController = waypointSearchController
         searchTableController.delegate = self
         definesPresentationContext = true
+        
+        let bool = UserDefaults.standard.bool(forKey: "theme")
+        if bool {
+            waypointSearchController?.searchBar.barStyle = .black
+        } else  {
+            waypointSearchController?.searchBar.barStyle = .default
+        }
     }
 }
 

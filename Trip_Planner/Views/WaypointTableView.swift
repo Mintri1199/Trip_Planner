@@ -14,10 +14,12 @@ class WaypointTableView: UITableView {
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
-        backgroundColor = .white
         translatesAutoresizingMaskIntoConstraints = false
         register(UITableViewCell.self, forCellReuseIdentifier: resuseIdentifier)
         dataSource = self
+        let bool = UserDefaults.standard.bool(forKey: "theme")
+        let theme = bool ? ColorTheme.dark : ColorTheme.light
+        backgroundColor = theme.viewControllerBackgroundColor
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -35,10 +37,14 @@ extension WaypointTableView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let housingVC = findViewController() as? TripDetailViewController else { return UITableViewCell()}
+        let bool = UserDefaults.standard.bool(forKey: "theme")
+        let theme = bool ? ColorTheme.dark : ColorTheme.light
         
         let cell = dequeueReusableCell(withIdentifier: resuseIdentifier, for: indexPath)
         let waypoint = housingVC.waypointViewModels[indexPath.row]
+        cell.backgroundColor = theme.viewControllerBackgroundColor
         cell.textLabel?.text = waypoint.name
+        cell.textLabel?.textColor = theme.primaryTextColor
         return cell
     }
     

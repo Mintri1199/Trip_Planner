@@ -123,7 +123,11 @@ extension MainTableViewController {
     
     // Set up an Empty View
     private func setupEmptyView() {
+        let bool = UserDefaults.standard.bool(forKey: "theme")
+        let theme = bool ? ColorTheme.dark : ColorTheme.light
+        
         let emptyView = TripEmptyView(frame: self.view.bounds)
+        emptyView.titleLabel.textColor = theme.primaryTextColor
         self.tableView.backgroundView = emptyView
         self.tableView.separatorStyle = .none
     }
@@ -189,12 +193,15 @@ extension MainTableViewController {
         let theme = isDark ?  ColorTheme.dark : ColorTheme.light
         
         view.backgroundColor = theme.viewControllerBackgroundColor
+        navigationController?.navigationBar.barTintColor = theme.navbarColor
         navigationController?.navigationBar.tintColor = theme.primaryTextColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.primaryTextColor]
     }
     
     @objc func changeTheme() {
         let previousBool = UserDefaults.standard.bool(forKey: "theme")
         UserDefaults.standard.set(!previousBool, forKey: "theme")
         setTheme(isDark: !previousBool)
+        self.tableView.reloadData()
     }
 }

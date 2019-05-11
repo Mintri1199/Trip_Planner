@@ -40,6 +40,8 @@ class TripDetailViewController: UIViewController {
             topView.removeFromSuperview()
         }
         view.addSubview(emptyView)
+        
+        
     }
     
     private func restore() {

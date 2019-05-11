@@ -20,9 +20,7 @@ extension UITableView {
         let messageLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = UIColor.black
         titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-        messageLabel.textColor = UIColor.lightGray
         messageLabel.font = UIFont(name: "HelveticaNeue-Regular", size: 17)
         emptyView.addSubview(titleLabel)
         emptyView.addSubview(messageLabel)
@@ -37,6 +35,14 @@ extension UITableView {
         messageLabel.textAlignment = .center
         self.backgroundView = emptyView
         self.separatorStyle = .none
+        
+        let bool = UserDefaults.standard.bool(forKey: "theme")
+        let theme = bool ? ColorTheme.dark : ColorTheme.light
+        
+        emptyView.backgroundColor = theme.viewControllerBackgroundColor
+        titleLabel.textColor = theme.secondaryTextColor
+        messageLabel.textColor = theme.secondaryTextColor
+        
     }
     
     func restore() {
